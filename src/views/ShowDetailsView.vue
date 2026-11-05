@@ -1,12 +1,111 @@
 <script setup lang="ts">
-import { onMounted, watch } from 'vue'
-import { useShowsStore } from '../stores/shows.store'
-import { cleanSummary } from '../utils/show.utils'
-import LoadingSpinner from '../components/common/LoadingSpinner.vue'
-import ErrorMessage from '../components/common/ErrorMessage.vue'
-import EpisodeCarousel from '../components/episodes/EpisodeCarousel.vue'
-const props = defineProps<{ id: string }>(); const store = useShowsStore()
-function load() { const id = Number(props.id); if (Number.isInteger(id) && id > 0) store.fetchShow(id) }
-onMounted(load); watch(() => props.id, load)
+import { onMounted, watch } from "vue";
+import { useShowsStore } from "../stores/shows.store";
+import { cleanSummary } from "../utils/show.utils";
+import LoadingSpinner from "../components/common/LoadingSpinner.vue";
+import ErrorMessage from "../components/common/ErrorMessage.vue";
+import EpisodeCarousel from "../components/episodes/EpisodeCarousel.vue";
+const props = defineProps<{ id: string }>();
+const store = useShowsStore();
+function load() {
+  const id = Number(props.id);
+  if (Number.isInteger(id) && id > 0) store.fetchShow(id);
+}
+onMounted(load);
+watch(() => props.id, load);
 </script>
-<template><main class="details-page"><RouterLink to="/" class="back-link">← Back to discover</RouterLink><LoadingSpinner v-if="store.detailLoading" /><ErrorMessage v-else-if="store.detailError" :message="store.detailError" @retry="load" /><section v-else-if="store.selectedShow" class="details-layout"><div class="details-poster"><img v-if="store.selectedShow.image?.original || store.selectedShow.image?.medium" :src="store.selectedShow.image?.original || store.selectedShow.image?.medium || ''" :alt="`${store.selectedShow.name} poster`" /><div v-else class="poster-placeholder">{{ store.selectedShow.name.slice(0, 1) }}</div></div><div class="details-copy"><span class="eyebrow">THE SHOW FILE / {{ store.selectedShow.status.toUpperCase() }}</span><h1>{{ store.selectedShow.name }}</h1><div class="detail-meta"><span class="detail-rating">★ {{ store.selectedShow.rating.average?.toFixed(1) ?? 'Not rated' }}</span><span>{{ store.selectedShow.premiered?.slice(0, 4) || 'Year unknown' }}</span><span>{{ store.selectedShow.runtime ? `${store.selectedShow.runtime} min` : 'Runtime N/A' }}</span><span>{{ store.selectedShow.language || 'Language N/A' }}</span></div><div class="genre-tags"><span v-for="genre in store.selectedShow.genres" :key="genre">{{ genre }}</span></div><h2>About the show</h2><p class="summary">{{ cleanSummary(store.selectedShow.summary) }}</p><p class="network" v-if="store.selectedShow.network || store.selectedShow.webChannel">Available on <strong>{{ store.selectedShow.network?.name || store.selectedShow.webChannel?.name }}</strong></p><a v-if="store.selectedShow.officialSite" class="button button-primary site-link" :href="store.selectedShow.officialSite" target="_blank" rel="noopener noreferrer">Official website ↗</a><section v-if="store.cast.length" class="cast-section"><h2>Cast</h2><div class="cast-grid"><div v-for="member in store.cast.slice(0, 8)" :key="member.person.id" class="cast-member"><img v-if="member.person.image?.medium" :src="member.person.image.medium" :alt="member.person.name" loading="lazy" /><div v-else class="cast-avatar">{{ member.person.name.slice(0, 1) }}</div><strong>{{ member.person.name }}</strong><span>{{ member.character.name }}</span></div></div></section></div><EpisodeCarousel :show-id="store.selectedShow.id" /></section></main></template>
+<template>
+  <main class="details-page">
+    <RouterLink to="/" class="back-link">← Back to discover</RouterLink
+    ><LoadingSpinner v-if="store.detailLoading" /><ErrorMessage
+      v-else-if="store.detailError"
+      :message="store.detailError"
+      @retry="load"
+    />
+    <section v-else-if="store.selectedShow" class="details-layout">
+      <div class="details-poster">
+        <img
+          v-if="
+            store.selectedShow.image?.original ||
+            store.selectedShow.image?.medium
+          "
+          :src="
+            store.selectedShow.image?.original ||
+            store.selectedShow.image?.medium ||
+            ''
+          "
+          :alt="`${store.selectedShow.name} poster`"
+        />
+        <div v-else class="poster-placeholder">
+          {{ store.selectedShow.name.slice(0, 1) }}
+        </div>
+      </div>
+      <div class="details-copy">
+        <h1>{{ store.selectedShow.name }}</h1>
+        <div class="detail-meta">
+          <span class="detail-rating"
+            >★
+            {{
+              store.selectedShow.rating.average?.toFixed(1) ?? "Not rated"
+            }}</span
+          ><span>{{
+            store.selectedShow.premiered?.slice(0, 4) || "Year unknown"
+          }}</span
+          ><span>{{
+            store.selectedShow.runtime
+              ? `${store.selectedShow.runtime} min`
+              : "Runtime N/A"
+          }}</span
+          ><span>{{ store.selectedShow.language || "Language N/A" }}</span>
+        </div>
+        <div class="genre-tags">
+          <span v-for="genre in store.selectedShow.genres" :key="genre">{{
+            genre
+          }}</span>
+        </div>
+        <p class="summary">{{ cleanSummary(store.selectedShow.summary) }}</p>
+        <p
+          class="network"
+          v-if="store.selectedShow.network || store.selectedShow.webChannel"
+        >
+          Available on
+          <strong>{{
+            store.selectedShow.network?.name ||
+            store.selectedShow.webChannel?.name
+          }}</strong>
+        </p>
+        <a
+          v-if="store.selectedShow.officialSite"
+          class="button button-primary site-link"
+          :href="store.selectedShow.officialSite"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Official website ↗</a
+        >
+      </div>
+        <section v-if="store.cast.length" class="cast-section">
+          <h2>Cast</h2>
+          <div class="cast-grid">
+            <div
+              v-for="member in store.cast.slice(0, 8)"
+              :key="member.person.id"
+              class="cast-member"
+            >
+              <img  
+                v-if="member.person.image?.medium"
+                :src="member.person.image.medium"
+                :alt="member.person.name"
+                loading="lazy"
+              />
+              <div v-else class="cast-avatar">
+                {{ member.person.name.slice(0, 1) }}
+              </div>
+              <strong>{{ member.person.name }}</strong
+              ><span>{{ member.character.name }}</span>
+            </div>
+          </div>
+        </section>
+      <EpisodeCarousel :show-id="store.selectedShow.id" />
+    </section>
+  </main>
+</template>

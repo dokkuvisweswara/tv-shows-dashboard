@@ -15,9 +15,11 @@ function scrollRail(direction: -1 | 1) {
 <template>
   <section class="genre-section" :aria-label="`${genre} shows`">
     <div class="section-heading">
-      <div><span class="eyebrow">EXPLORE BY MOOD</span><h2>{{ genre }} <span class="count">{{ shows.length }}</span></h2></div>
+      <div>
+        <h2>{{ genre }}</h2>
+      </div>
       <div class="genre-heading-actions">
-        <span class="section-hint">Top rated first <span>↗</span></span>
+        <!-- <span class="section-hint">Top rated first <span>↗</span></span> -->
         <div class="rail-arrows" :aria-label="`${genre} carousel controls`">
           <button type="button" aria-label="Scroll shows left" @click="scrollRail(-1)">‹</button>
           <button type="button" aria-label="Scroll shows right" @click="scrollRail(1)">›</button>
