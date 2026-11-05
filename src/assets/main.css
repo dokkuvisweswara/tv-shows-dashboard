@@ -82,6 +82,9 @@ input {
   color: #e5e4e0;
   font-size: 13px;
 }
+.nav-link:hover {
+  color: var(--accent);
+}
 .header-search {
   margin-left: auto;
   width: min(300px, 40vw);
