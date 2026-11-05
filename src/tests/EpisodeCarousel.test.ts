@@ -16,7 +16,11 @@ describe('EpisodeCarousel', () => {
     await flushPromises()
     expect(wrapper.text()).toContain('Episode 1')
     expect(wrapper.text()).toContain('Episode 2')
-    expect(wrapper.text()).not.toContain('Season 2')
+    // Both seasons should remain available in the dropdown.
+  expect(wrapper.get('#season-select').text()).toContain('Season 2')
+
+  // Initially, Season 1 should be selected.
+  expect((wrapper.get('#season-select').element as HTMLSelectElement).value).toBe('1')
     await wrapper.get('#season-select').setValue(2)
     expect(wrapper.text()).toContain('Season 2')
     expect(wrapper.text()).not.toContain('Episode 1')
