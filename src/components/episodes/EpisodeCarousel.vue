@@ -78,7 +78,7 @@ onUnmounted(() => controller?.abort());
       <div>
         <!-- <span class="eyebrow">THE COMPLETE GUIDE</span> -->
         <h2 id="episodes-title">
-          Episodes <span class="count">{{ episodes.length }}</span>
+          Episodes
         </h2>
       </div>
       <div v-if="seasons.length" class="episode-heading-actions">

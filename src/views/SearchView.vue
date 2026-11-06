@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onUnmounted, ref, watch } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { tvmazeService } from "../services/tvmaze.service";
 import type { Show } from "../types/show.types";
@@ -69,6 +69,10 @@ watch(query, (value) => {
 function clearSearch() {
   query.value = "";
 }
+onMounted(() => {
+    const input = document.getElementById("show-search-input");
+    input?.focus();
+});
 onUnmounted(() => controller?.abort());
 </script>
 

@@ -59,7 +59,6 @@ onUnmounted(stopAutoplay)
     </Transition>
     <div class="featured-hero-overlay" />
     <div class="featured-hero-content" :key="`content-${activeShow.id}`">
-      <span class="eyebrow"><span class="live-dot" /> EDITOR'S PICKS · FEATURED {{ String(activeIndex + 1).padStart(2, '0') }} / {{ String(featuredShows.length).padStart(2, '0') }}</span>
       <h1>{{ activeShow.name }}</h1>
       <div class="featured-hero-meta">
         <span class="hero-rating">★ {{ activeShow.rating.average?.toFixed(1) ?? 'N/A' }}</span>
