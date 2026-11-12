@@ -52,7 +52,8 @@ describe('SearchView', () => {
     const { wrapper } = await mountSearch('girls')
     await vi.advanceTimersByTimeAsync(350)
     await flushPromises()
-    expect(firstSignal?.aborted).toBe(false)
+    const firstRequestAborted: boolean = firstSignal?.aborted ?? false
+    expect(firstRequestAborted).toBe(false)
     await wrapper.get('#show-search-input').setValue('friends')
     await vi.advanceTimersByTimeAsync(350)
     await flushPromises()

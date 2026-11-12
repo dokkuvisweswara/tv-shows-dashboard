@@ -18,30 +18,14 @@ onMounted(() => store.fetchShows());
       :message="store.error"
       @retry="store.fetchShows()"
     />
-    <template v-else-if="store.shows.length"
-      ><FeaturedHeroCarousel :shows="sortByRating(store.shows).slice(0, 4)" />
-      <!-- <section class="featured-section">
-        <div class="section-heading">
-          <div>
-            <span class="eyebrow">THE CROWD HAS SPOKEN</span>
-            <h2>Highest rated <span class="accent-text">shows</span></h2>
-          </div>
-          <span class="section-hint">From the TVMaze catalogue</span>
-        </div>
-        <div class="featured-grid">
-          <ShowCard
-            v-for="show in sortByRating(store.shows).slice(0, 5)"
-            :key="show.id"
-            :show="show"
-            :featured="true"
-          />
-        </div>
-      </section> -->
+    <template v-else-if="store.shows.length">
+      <FeaturedHeroCarousel :shows="sortByRating(store.shows).slice(0, 4)" />
       <GenreSection
         v-for="(shows, genre) in store.genres"
         :key="genre"
         :genre="genre"
         :shows="shows"
-    /></template>
+      />
+    </template>
   </main>
 </template>
